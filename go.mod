@@ -2,4 +2,7 @@ module modular-acai-shop
 
 go 1.22.1
 
-require github.com/google/uuid v1.6.0 // indirect
+require (
+	github.com/google/uuid v1.6.0 // indirect
+	golang.org/x/crypto v0.24.0
+)
