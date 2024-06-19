@@ -9,7 +9,7 @@ type User struct {
 	password string
 }
 
-func NewUserEntity(id, name, email, password string) *User {
+func NewUserEntity(name, email, password string) *User {
 	return &User{
 		id:       uuid.New().String(),
 		name:     name,
