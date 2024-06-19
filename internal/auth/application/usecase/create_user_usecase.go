@@ -25,13 +25,13 @@ func (u *CreateUserUseCase) Execute(ctx context.Context, name string, email stri
 		return err
 	}
 	if user != nil {
-		return errors.New("Email already exists")
+		return errors.New("email already exists")
 	}
 	h, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
 	if err != nil {
 		return err
 	}
-	user = entity.NewUserEntity(name, email, h)
+	user = entity.NewUserEntity(name, email, string(h[:]))
 	// todo: save to database
 	return nil
 }
