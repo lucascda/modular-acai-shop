@@ -1,0 +1,10 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "internal/auth/infra/postgresql/query.sql"
+    schema: "pkg/database/migrations/000001_create_users_table.up.sql"
+    gen:
+      go:
+        package: "postgresql"
+        sql_package: "pgx/v5"
+        out: "internal/auth/infra/postgresql"
