@@ -17,9 +17,10 @@ func NewJwtService() *JwtService {
 
 func (s *JwtService) Parse(input string) (jwt.Claims, bool) {
 	token, err := jwt.Parse(input, func(token *jwt.Token) (interface{}, error) {
-		return os.Getenv("jwt_secret"), nil
+		return []byte(os.Getenv("jwt_secret")), nil
 	})
 	if err != nil || !token.Valid {
+
 		return nil, false
 	}
 	return token.Claims, true
