@@ -7,7 +7,31 @@ package postgresql
 
 import (
 	"context"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
+
+const createUser = `-- name: CreateUser :exec
+INSERT INTO users (id, name, email, password)
+VALUES ($1, $2, $3, $4)
+`
+
+type CreateUserParams struct {
+	ID       pgtype.UUID
+	Name     string
+	Email    string
+	Password string
+}
+
+func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
+	_, err := q.db.Exec(ctx, createUser,
+		arg.ID,
+		arg.Name,
+		arg.Email,
+		arg.Password,
+	)
+	return err
+}
 
 const getUserByEmail = `-- name: GetUserByEmail :one
 SELECT id, name, email, password FROM users
