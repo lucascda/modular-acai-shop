@@ -37,8 +37,9 @@ func (s *JwtService) SetClaims(issuer, userId string, exp_in_hours int) jwt.Regi
 
 func (s *JwtService) Generate(claims jwt.RegisteredClaims, secret string) (string, error) {
 	t := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	ss, err := t.SignedString(secret)
+	ss, err := t.SignedString([]byte(secret))
 	if err != nil {
+
 		return "", errors.New("error while signing jwt")
 	}
 	return ss, nil
