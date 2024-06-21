@@ -7,13 +7,13 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-type postgres struct {
+type Postgres struct {
 	db *pgxpool.Pool
 }
 
-func NewPostgresDB(url string) (*postgres, error) {
+func NewPostgresDB(url string) (*Postgres, error) {
 	var err error
-	var pg = &postgres{}
+	var pg = &Postgres{}
 
 	log.Printf("Connecting to %s", url)
 	pg.db, err = pgxpool.New(context.Background(), url)
@@ -24,7 +24,7 @@ func NewPostgresDB(url string) (*postgres, error) {
 	return pg, nil
 }
 
-func (p *postgres) GetDB() (*pgxpool.Conn, error) {
+func (p *Postgres) GetDB() (*pgxpool.Conn, error) {
 	conn, err := p.db.Acquire(context.Background())
 	if err != nil {
 		log.Fatal("Cant get connection from connection pool")
@@ -32,7 +32,7 @@ func (p *postgres) GetDB() (*pgxpool.Conn, error) {
 	return conn, nil
 }
 
-func (p *postgres) Close() {
+func (p *Postgres) Close() {
 	if p.db != nil {
 		p.db.Close()
 	}
