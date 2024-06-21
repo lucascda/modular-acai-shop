@@ -29,3 +29,7 @@ func (u *User) Name() string {
 func (u *User) Email() string {
 	return u.email
 }
+
+func (u *User) Password() string {
+	return u.password
+}
