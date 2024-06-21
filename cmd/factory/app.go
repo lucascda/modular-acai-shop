@@ -1,11 +1,13 @@
 package factory
 
 import (
+	"log"
 	"modular-acai-shop/internal/auth/application/controller"
 	"modular-acai-shop/internal/auth/application/service"
 	"modular-acai-shop/internal/auth/application/usecase"
 	"modular-acai-shop/internal/auth/infra/postgresql/repository"
 	"modular-acai-shop/pkg/database"
+	"net/http"
 
 	"github.com/joho/godotenv"
 )
@@ -29,6 +31,16 @@ func (a *Application) LoadEnv() error {
 	if err != nil {
 		panic(err)
 	}
+	return nil
+}
+
+func (a *Application) RunServer(port string) error {
+	log.Printf("Server listening on port %s", port)
+	err := http.ListenAndServe(port, nil)
+	if err != nil {
+		panic(err)
+	}
+
 	return nil
 }
 
