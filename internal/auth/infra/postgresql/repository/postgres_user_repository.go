@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"errors"
+	"fmt"
 	"modular-acai-shop/internal/auth/domain/entity"
 	"modular-acai-shop/internal/auth/infra/postgresql"
 
@@ -30,8 +31,8 @@ func (r PostgresUserRepository) GetUserByEmail(ctx context.Context, email string
 		}
 		return nil, err
 	}
-
-	e := entity.NewUserEntity(user.Name, user.Email, user.Password)
+	uuid := fmt.Sprintf("%x-%x-%x-%x-%x", user.ID.Bytes[0:4], user.ID.Bytes[4:6], user.ID.Bytes[6:8], user.ID.Bytes[8:10], user.ID.Bytes[10:16])
+	e := entity.HydrateUserEntity(uuid, user.Name, user.Email, user.Password)
 
 	return e, nil
 }
@@ -44,6 +45,7 @@ func (r PostgresUserRepository) CreateUser(ctx context.Context, id, name, email,
 
 	q := postgresql.New(r.db)
 	uuid, err := uuid.Parse(id)
+
 	if err != nil {
 		return err
 	}

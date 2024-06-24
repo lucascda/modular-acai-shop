@@ -18,6 +18,15 @@ func NewUserEntity(name, email, password string) *User {
 	}
 }
 
+func HydrateUserEntity(id, name, email, password string) *User {
+	return &User{
+		id:       id,
+		name:     name,
+		email:    email,
+		password: password,
+	}
+}
+
 func (u *User) ID() string {
 	return u.id
 }
